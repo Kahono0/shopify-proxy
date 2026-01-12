@@ -18,7 +18,11 @@ export async function POST(req: NextRequest) {
     });
 
     const data = await response.json();
-    return NextResponse.json(data);
+    //return NextResponse.json(data);
+    // set content security policy header
+    const res = NextResponse.json(data);
+    res.headers.set("Content-Security-Policy", "default-src 'self'; script-src 'none'; object-src 'none';");
+    return res;
   } catch (error) {
     console.error("Proxy error:", error);
     return NextResponse.json({ error: "Proxy request failed" }, { status: 500 });
